@@ -1,5 +1,5 @@
 const { join, resolve } = require('path');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+// const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { HotModuleReplacementPlugin, NamedModulesPlugin } = require('webpack');
 
@@ -28,7 +28,7 @@ module.exports = {
         ]
     },
     plugins: [
-        new CleanWebpackPlugin(),
+        // new CleanWebpackPlugin(), // NDF:
         new NamedModulesPlugin(),
         new HotModuleReplacementPlugin(),
         new CopyWebpackPlugin([
