@@ -9,6 +9,7 @@ module.exports = {
     devServer: {
         contentBase: './dist',
         hot: true
+        // , port: 9000
     },
     mode: 'development',
     module: {
@@ -17,7 +18,7 @@ module.exports = {
                 test: /\.[jt]s$/,
                 include: [
                     join(__dirname, 'src'),
-                    join(__dirname, 'node_modules/botbuilder-core/lib'),
+                    join(__dirname, 'node_modules/botbuilder-core/lib')
                 ],
                 use: ['babel-loader']
             },
