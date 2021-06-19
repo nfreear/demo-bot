@@ -5,6 +5,7 @@
     "description": "BotBuilder v4 echo bot using botframework-webchat",
     "author": "Microsoft",
     "license": "MIT",
+    "repository": "https://github.com/nfreear/demo-bot.git",
     "main": "app.js",
     "scripts": {
         "build": "webpack --mode=production",
@@ -14,8 +15,8 @@
     },
     "dependencies": {
         "@babel/runtime": "^7.1.5",
-        "botbuilder-core": "~4.13.4",
-        "botframework-directlinejs": "~0.11.2",
+        "botbuilder-core": "^4.13.6",
+        "botframework-directlinejs": "^0.14.1",
         "botframework-webchat": "^4.13.0",
         "core-js": "^3.0.1"
     },
