@@ -45,3 +45,26 @@ button.button-primary {
 #bot {
     position: relative;
 }
+
+body #webchat .main,
+body #webchat .webchat__send-box__main,
+body #webchat .webchat__bubble__content,
+body #webchat .webchat__row > div {
+  border-color: #ccc;
+}
+
+body #webchat button {
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  cursor: pointer;
+}
+
+#webchat input:focus,
+#webchat button:focus {
+  outline: 3px solid darkorange;
+  outline-offset: -.2rem;
+}
+
+#webchat input:focus {
+  outline-offset: .5rem;
+}

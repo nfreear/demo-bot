@@ -18,6 +18,8 @@ export class WebChatAdapter extends BotAdapter {
                 observer.next(ConnectionStatus.Uninitialized);
                 observer.next(ConnectionStatus.Connecting);
                 observer.next(ConnectionStatus.Online);
+
+                console.debug('Adapter. connectionStatus: Online.', observer, this);
             }),
             activity$: new Observable(observer => {
                 this.activityObserver = observer;
@@ -34,6 +36,8 @@ export class WebChatAdapter extends BotAdapter {
             postActivity: activity => {
                 const id = Date.now().toString();
 
+                console.debug('Adapter. From user postActivity. ID=', id, activity);
+
                 return new Observable(observer => {
                     const serverActivity = {
                         ...activity,
@@ -47,6 +51,8 @@ export class WebChatAdapter extends BotAdapter {
                     this.onReceive(serverActivity).then(() => {
                         observer.next(id);
                         observer.complete();
+
+                        console.debug('Adapter. postActivity ~ onReceive:', serverActivity);
 
                         this.activityObserver.next(serverActivity);
                     });
@@ -62,6 +68,8 @@ export class WebChatAdapter extends BotAdapter {
      * @param {Activity[]} activities
      */
     sendActivities(context, activities) {
+        console.debug('Adapter. sendActivities:', activities);
+
         const sentActivities = activities.map(activity => Object.assign({}, activity, {
             id: Date.now().toString(),
             channelId: 'WebChat',
@@ -84,6 +92,9 @@ export class WebChatAdapter extends BotAdapter {
     */
     processActivity(logic) {
         this.logic = logic;
+
+        // console.debug('Adapter. processActivity:', logic);
+
         return this;
     }
 
@@ -93,6 +104,8 @@ export class WebChatAdapter extends BotAdapter {
      */
     onReceive(activity) {
         const context = new TurnContext(this, activity);
+
+        console.debug('Adapter. onReceive:', activity);
 
         // Runs the middleware pipeline followed by any registered business logic.
         // If no business logic has been registered via processActivity, a default
