@@ -1,3 +1,13 @@
+
+[![Node.js CI][ci-badge]][ci]
+
+# demo-bot #
+
+
+---
+[ci]: https://github.com/nfreear/demo-bot/actions/workflows/node.js.yml
+[ci-badge]: https://github.com/nfreear/demo-bot/actions/workflows/node.js.yml/badge.svg
+
 # browser echo sample
 
 Bot Framework v4 browser bot sample
