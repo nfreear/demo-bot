@@ -1,7 +1,13 @@
+/**
+ *
+ * @see https://webpack.js.org/configuration/
+ * @see https://webpack.js.org/guides/code-splitting/
+ */
+
 const { join, resolve } = require('path');
 // const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const { HotModuleReplacementPlugin, NamedModulesPlugin } = require('webpack');
+const { HotModuleReplacementPlugin /* , NamedModulesPlugin */ } = require('webpack');
 
 module.exports = {
     entry: './src/app.ts',
@@ -30,11 +36,13 @@ module.exports = {
     },
     plugins: [
         // new CleanWebpackPlugin(), // NDF:
-        new NamedModulesPlugin(),
+        // new NamedModulesPlugin(), // Is this needed??
         new HotModuleReplacementPlugin(),
-        new CopyWebpackPlugin([
-            { from: resolve(__dirname, 'index.html'), to: '' }
-        ])
+        new CopyWebpackPlugin({
+            patterns: [
+                { from: resolve(__dirname, 'index.html'), to: '' }
+            ]
+        })
     ],
     resolve: {
         extensions: ['.css', '.js', '.ts']
@@ -43,9 +51,13 @@ module.exports = {
         filename: 'app.js',
         path: resolve(__dirname, 'dist')
     },
+    // https://webpack.js.org/configuration/node/
     node: {
-        fs: 'empty',
+        global: true, // true = use Polyfill ?
+        __filename: true, // ??
+        __dirname: true
+        /* fs: 'empty',
         net: 'empty',
-        tls: 'empty'
+        tls: 'empty' */ // Was:
     }
 };

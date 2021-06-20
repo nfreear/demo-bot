@@ -9,7 +9,8 @@
     "main": "app.js",
     "scripts": {
         "build": "webpack --mode=production",
-        "start": "webpack-dev-server",
+        "start": "webpack serve",
+        "start:test": "php -S localhost:8080 -t dist",
         "fix": "eslint --fix .",
         "lint": "eslint .",
         "test": "echo \"Error: no test specified\" && exit 1"
@@ -30,7 +31,7 @@
         "@babel/runtime": "^7.5.4",
         "babel-loader": "^8.0.6",
         "clean-webpack-plugin": "^3.0.0",
-        "copy-webpack-plugin": "^5.0.3",
+        "copy-webpack-plugin": "^9.0.0",
         "core-js": "^3.1.4",
         "css-loader": "^3.0.0",
         "eslint": "^7.29.0",
@@ -40,9 +41,9 @@
         "eslint-plugin-promise": "^5.1.0",
         "eslint-plugin-standard": "^5.0.0",
         "regenerator-runtime": "^0.13.2",
-        "style-loader": "^0.23.1",
-        "webpack": "^4.35.3",
-        "webpack-cli": "^3.3.6",
+        "style-loader": "^2.0.0",
+        "webpack": "^5.39.1",
+        "webpack-cli": "^4.7.2",
         "webpack-dev-server": "^3.7.2"
     }
 }
