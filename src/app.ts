@@ -1,3 +1,10 @@
+/*!
+ * A demo Chat-bot that runs entirely in the browser.
+ *
+ * @copyright © 2021 Nick Freear.
+ * @license proprietary.
+ */
+
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 

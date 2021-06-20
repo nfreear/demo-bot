@@ -2,15 +2,19 @@
     "private": true,
     "name": "browser-echo",
     "version": "1.1.0",
-    "description": "BotBuilder v4 echo bot using botframework-webchat",
+    "description": "A demo Chat-bot that runs entirely in the browser.",
     "author": "Microsoft",
-    "license": "MIT",
+    "contributors": [
+        { "name": "Microsoft" },
+        { "name": "Nick Freear" }
+    ],
+    "license": "proprietary",
     "repository": "https://github.com/nfreear/demo-bot.git",
     "main": "app.js",
     "scripts": {
         "build": "webpack --mode=production",
         "start": "webpack serve",
-        "start:test": "php -S localhost:8080 -t dist",
+        "start:php": "php -S localhost:8080 -t dist",
         "fix": "eslint --fix .",
         "lint": "eslint .",
         "test": "echo \"Error: no test specified\" && exit 1"

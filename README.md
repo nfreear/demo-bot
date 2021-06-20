@@ -1,12 +1,18 @@
 
 [![Node.js CI][ci-badge]][ci]
 
-# demo-bot #
+# browser-bot #
 
+A demo Chat-bot that runs entirely in the browser.
+
+...
+
+...
 
 ---
 [ci]: https://github.com/nfreear/demo-bot/actions/workflows/node.js.yml
 [ci-badge]: https://github.com/nfreear/demo-bot/actions/workflows/node.js.yml/badge.svg
+
 
 # browser echo sample
 
