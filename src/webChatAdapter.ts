@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { ConnectionStatus } from 'botframework-directlinejs';
+import { ConnectionStatus } from './ConnectionStatus';
+// import { ConnectionStatus } from 'botframework-directlinejs';
 import { BotAdapter, TurnContext } from 'botbuilder-core';
 import { BOT_PROFILE, USER_PROFILE } from './app';
 import Observable from 'core-js/features/observable';
@@ -20,6 +21,8 @@ export class WebChatAdapter extends BotAdapter {
                 observer.next(ConnectionStatus.Online);
 
                 console.debug('Adapter. connectionStatus: Online.', observer, this);
+
+                // console.debug('ConnectionStatus:', JSON.stringify(ConnectionStatus, null, 2));
             }),
             activity$: new Observable(observer => {
                 this.activityObserver = observer;
