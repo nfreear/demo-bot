@@ -10,28 +10,26 @@
 
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-import {
-    ActivityTypes,
-    ConversationState,
-    MemoryStorage
-} from 'botbuilder-core';
+import { Activity, ActivityTypes, TurnContext } from 'botbuilder-core';
 import './css/app.css';
+import { BotBackend } from './botBackend';
 import { WebChatAdapter } from './webChatAdapter';
-// import { renderWebChat } from 'botframework-webchat';
+import { createStore, renderWebChat, WebChat, getWebChatVersion } from './webChat';
+// Was: import { renderWebChat } from 'botframework-webchat';
 
-const { renderWebChat } = window.WebChat;
+const botBackend = new BotBackend();
 
 // Create the custom WebChatAdapter.
 const webChatAdapter = new WebChatAdapter();
 
-webChatAdapter.use(async (context, next) => {
+/* webChatAdapter.use(async (context: TurnContext, next) => {
     console.debug('Middleware. Activity:', context.activity);
 
     await next();
-});
+}); */
 
 // Create a store.
-const store = WebChat.createStore({}, ({ dispatch }) => next => action => {
+const store = createStore({}, ({ dispatch }) => next => action => {
 
   if (action.type === 'DIRECT_LINE/CONNECT_FULFILLED') {
     const dResult = dispatch({
@@ -56,49 +54,22 @@ renderWebChat({
 },
 document.getElementById('webchat')
 );
-// Instantiate MemoryStorage for use with the ConversationState class.
-const memory = new MemoryStorage();
-
-// Add the instantiated storage into ConversationState.
-const conversationState = new ConversationState(memory);
-
-// Create a property to keep track of how many messages are received from the user.
-const countProperty = conversationState.createProperty('turnCounter');
 
 // Register the business logic of the bot through the WebChatAdapter's processActivity implementation.
-webChatAdapter.processActivity(async turnContext => {
-    const ACT = turnContext.activity;
+webChatAdapter.processActivity(async (context: TurnContext) => {
+    const ACT: Partial<Activity> = context.activity;
 
     console.debug('From user processActivity:', ACT);
 
     // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
     if (ACT.type === ActivityTypes.Message) {
-        // Read from state.
-        let count = await countProperty.get(turnContext);
-        count = count === undefined ? 1 : count;
-
-        if (ACT.text.match(/^(Go|Start)/i)) {
-          await turnContext.sendActivity(
-              `\`${ count }:\` Let's start ...!`
-          );
-        } else {
-          await turnContext.sendActivity(
-              `\`${ count }:\` You said "${ turnContext.activity.text }"`
-          );
-        }
-
-        // Increment and set turn counter.
-        await countProperty.set(turnContext, ++count);
-        //.
+        await botBackend.onMessage(context);
     } else if (ACT.type === ActivityTypes.Event && ACT.name === 'webchat/join') {
-        await turnContext.sendActivity(`Welcome!`);
-        await turnContext.sendActivity('Say "go" to get started');
+        await botBackend.onJoinChat(context);
     } else {
-        await turnContext.sendActivity(
-            `[${ turnContext.activity.type } event detected]`
-        );
+        await context.sendActivity(`[${ ACT.type } event detected]`);
     }
-    await conversationState.saveChanges(turnContext);
+    // await conversationState.saveChanges(turnContext);
 });
 
 // Create user and bot profiles.
@@ -117,23 +88,8 @@ document.addEventListener('DOMContentLoaded', () => {
             type: ActivityTypes.ConversationUpdate
         });
 
-        /* setTimeout(() => {
-            webChatAdapter.botConnection.postActivity({
-                recipient: BOT_PROFILE,
-                from: USER_PROFILE,
-                // name: 'MyEvent',
-                // value: { TEST: true },
-                // type: ActivityTypes.Event,
-                text: 'Welcome!',
-                type: ActivityTypes.Message,
-            })
-        },
-        1000); */
-
         console.debug('Posted ConversationUpdate.');
     });
 });
 
-const META = document.querySelector('meta[ name = "botframework-webchat:core:version" ]');
-
-console.debug('WebChat.js version:', META.getAttribute('content'), typeof require, window.WebChat);
+console.debug('WebChat.js version:', getWebChatVersion(), typeof require, WebChat);

@@ -11,20 +11,32 @@
 // Licensed under the MIT License.
 
 import { ConnectionStatus } from './ConnectionStatus';
-// import { ConnectionStatus } from 'botframework-directlinejs';
-import { BotAdapter, TurnContext } from 'botbuilder-core';
+// Was: import { ConnectionStatus } from 'botframework-directlinejs';
+import { Activity, BotAdapter, TurnContext } from 'botbuilder-core';
 import { BOT_PROFILE, USER_PROFILE } from './app';
 import Observable from 'core-js/features/observable';
+
+type MyObserver = { next: Function, complete: Function };
+type MyConnection = { connectionStatus$: Observable, activity$: Observable, end: Function, getSessionId: Function, postActivity: Function };
+type MyLogic = (c: TurnContext) => Promise<void>;
 
 /**
  * Custom BotAdapter used for deploying a bot in a browser.
  */
+// @ts-ignore
 export class WebChatAdapter extends BotAdapter {
+    public botConnection: MyConnection;
+
+    protected activityObserver: MyObserver;
+    protected logic: MyLogic;
+
     constructor() {
         super();
 
+        this.logic = () => new Promise(() => {});
+
         this.botConnection = {
-            connectionStatus$: new Observable(observer => {
+            connectionStatus$: new Observable((observer: MyObserver) => {
                 observer.next(ConnectionStatus.Uninitialized);
                 observer.next(ConnectionStatus.Connecting);
                 observer.next(ConnectionStatus.Online);
@@ -33,7 +45,7 @@ export class WebChatAdapter extends BotAdapter {
 
                 // console.debug('ConnectionStatus:', JSON.stringify(ConnectionStatus, null, 2));
             }),
-            activity$: new Observable(observer => {
+            activity$: new Observable((observer: MyObserver) => {
                 this.activityObserver = observer;
             }),
             end() {
@@ -48,9 +60,9 @@ export class WebChatAdapter extends BotAdapter {
             postActivity: activity => {
                 const id = Date.now().toString();
 
-                console.debug('Adapter. From user postActivity. ID=', id, activity);
+                // console.debug('Adapter. From user postActivity. ID=', id, activity);
 
-                return new Observable(observer => {
+                return new Observable((observer: MyObserver) => {
                     const serverActivity = {
                         ...activity,
                         id,
@@ -64,7 +76,7 @@ export class WebChatAdapter extends BotAdapter {
                         observer.next(id);
                         observer.complete();
 
-                        console.debug('Adapter. postActivity ~ onReceive:', serverActivity);
+                        // console.debug('Adapter. postActivity ~ onReceive:', serverActivity);
 
                         this.activityObserver.next(serverActivity);
                     });
@@ -79,8 +91,8 @@ export class WebChatAdapter extends BotAdapter {
      * @param {TurnContext} context
      * @param {Activity[]} activities
      */
-    sendActivities(context, activities) {
-        console.debug('Adapter. sendActivities:', activities);
+    sendActivities(context: TurnContext, activities): Promise<any> {
+        // console.debug('Adapter. sendActivities:', activities);
 
         const sentActivities = activities.map(activity => Object.assign({}, activity, {
             id: Date.now().toString(),
@@ -102,7 +114,7 @@ export class WebChatAdapter extends BotAdapter {
      * Registers the business logic for the adapter, it takes a handler that takes a TurnContext object as a parameter.
      * @param {function} logic The driver code of the developer's bot application. This code receives and responds to user messages.
     */
-    processActivity(logic) {
+    processActivity(logic: MyLogic) {
         this.logic = logic;
 
         // console.debug('Adapter. processActivity:', logic);
@@ -114,14 +126,14 @@ export class WebChatAdapter extends BotAdapter {
      * Runs the bot's middleware pipeline in addition to any business logic, if `this.logic` is found.
      * @param {Activity} activity
      */
-    onReceive(activity) {
+    onReceive(activity: Partial<Activity>): Promise<void> {
         const context = new TurnContext(this, activity);
 
-        console.debug('Adapter. onReceive:', activity);
+        // console.debug('Adapter. onReceive:', activity);
 
         // Runs the middleware pipeline followed by any registered business logic.
         // If no business logic has been registered via processActivity, a default
         // value is provided as to not break the bot.
-        return this.runMiddleware(context, this.logic || function() { });
+        return this.runMiddleware(context, this.logic); // || function() { });
     }
 }
