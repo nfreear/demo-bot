@@ -1,7 +1,7 @@
 {
     "private": true,
     "name": "browser-echo",
-    "version": "1.1.0",
+    "version": "1.3.0",
     "description": "A demo Chat-bot that runs entirely in the browser.",
     "author": "Microsoft",
     "contributors": [
@@ -13,6 +13,7 @@
     "main": "app.js",
     "scripts": {
         "build": "webpack --mode=production",
+        "clean": "rm -rf dist",
         "start": "webpack serve",
         "start:php": "php -S localhost:8080 -t dist",
         "fix": "eslint --fix .",
@@ -21,6 +22,8 @@
     },
     "dependencies": {
         "@babel/runtime": "^7.1.5",
+        "@nlpjs/basic": "^4.22.0",
+        "@nlpjs/request-rn": "^4.21.1",
         "botbuilder-core": "^4.13.6",
         "botframework-directlinejs": "^0.14.1",
         "botframework-webchat": "^4.13.0",

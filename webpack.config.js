@@ -21,7 +21,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.[jt]s$/,
+                test: /\.(js|ts)$/,
                 include: [
                     join(__dirname, 'src'),
                     join(__dirname, 'node_modules/botbuilder-core/lib')
@@ -40,7 +40,8 @@ module.exports = {
         new HotModuleReplacementPlugin(),
         new CopyWebpackPlugin({
             patterns: [
-                { from: resolve(__dirname, 'index.html'), to: '' }
+                { from: resolve(__dirname, 'index.html'), to: '' },
+                { from: resolve(__dirname, 'bot', 'corpus-en.json'), to: '' },
             ]
         })
     ],

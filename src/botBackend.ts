@@ -11,9 +11,15 @@ import {
     TurnContext
 } from 'botbuilder-core';
 
+import { NlpWeb, NlpResult } from './nlpWeb';
+
+// const SURVEY_REGEX = /^(survey\.[a-z\.]+|None)$/
+
 export class BotBackend {
     protected countProperty: StatePropertyAccessor<any>;
     protected conversationState: ConversationState;
+
+    protected nlp: NlpWeb;
 
     constructor() {
         // Instantiate MemoryStorage for use with the ConversationState class.
@@ -24,16 +30,25 @@ export class BotBackend {
 
         // Create a property to keep track of how many messages are received from the user.
         this.countProperty = this.conversationState.createProperty('turnCounter');
+
+        this.nlp = new NlpWeb();
+        this.nlp.initialize().then(res => console.debug('NLP.js ~ training complete:', res));
     }
 
-    async onMessage(context: TurnContext): Promise<void> {
+    public async onMessage(context: TurnContext): Promise<void> {
         const ACT: Partial<Activity> = context.activity;
 
         // Read from state.
         let count = await this.countProperty.get(context);
         count = count === undefined ? 1 : count;
 
-        if (ACT.text.match(/^(Go|Start)/i)) {
+        const result: NlpResult = await this.nlp.processActivity(ACT);
+
+        const { intent, score, answer } = result;
+
+        if (answer) {
+            await context.sendActivity(`\`${ count }:\` ${answer}`);
+        } else if (ACT.text.match(/^(Go|Start)/i)) {
           await context.sendActivity(
               `\`${ count }:\` Let's start ...!`
           );
@@ -49,7 +64,7 @@ export class BotBackend {
         await this.conversationState.saveChanges(context);
     }
 
-    async onJoinChat(context: TurnContext): Promise<void> {
+    public async onJoinChat(context: TurnContext): Promise<void> {
         await context.sendActivity(`Welcome!`);
         await context.sendActivity('Say "go" to get started');
     }

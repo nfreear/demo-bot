@@ -1,0 +1,64 @@
+{
+  "#": "https://github.com/nfreear/survey-bot/blob/main/bot/corpus-en.json",
+
+  "name": "Name of the corpus",
+
+  "locale": "en-GB",
+
+  "data": [
+    {
+      "intent": "agent.birthday",
+      "utterances": [
+        "when is your birthday",
+        "when do you celebrate your birthday",
+        "when were you born",
+        "when do you have birthday",
+        "date of your birthday"
+      ],
+      "answers": [
+        "Wait, are you planning a party for me? It's today! My birthday is today!",
+        "I'm young. I'm not sure of my birth date",
+        "I don't know my birth date. Most virtual agents are young, though, like me."
+      ]
+    },
+    {
+      "intent": "greetings.bye",
+      "utterances": [
+        "goodbye for now",
+        "bye bye take care",
+        "okay see you later",
+        "bye for now",
+        "I must go"
+      ],
+      "answers": [
+        "Till next time",
+        "see you soon!"
+      ]
+    },
+    {
+      "intent": "greetings.hello",
+      "utterances": [
+        "hello",
+        "hi",
+        "howdy"
+      ],
+      "answers": [
+        "Hey there!",
+        "Greetings!"
+      ]
+    },
+
+    {
+      "intent": "survey.start",
+      "utterances": [
+        "Start the survey",
+        "Begin the survey",
+        "start the quiz",
+        "Question me",
+        "I'm ready",
+        "Let's go",
+        "Go"
+      ]
+    }
+  ]
+}

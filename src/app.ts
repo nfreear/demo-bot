@@ -17,6 +17,8 @@ import { WebChatAdapter } from './webChatAdapter';
 import { createStore, renderWebChat, WebChat, getWebChatVersion } from './webChat';
 // Was: import { renderWebChat } from 'botframework-webchat';
 
+const locale = 'en-GB';
+
 const botBackend = new BotBackend();
 
 // Create the custom WebChatAdapter.
@@ -50,7 +52,17 @@ const store = createStore({}, ({ dispatch }) => next => action => {
 
 renderWebChat({
     directLine: webChatAdapter.botConnection,
-    store,
+    locale,
+    // userID: options.userID || 'nick', // 'YOUR_USER_ID',
+    // username: options.username || 'Nick User',
+    role: 'main', // Not 'complementary'!
+    styleOptions: {
+        // adaptiveCardsParserMaxVersion: '1.2'
+        hideUploadButton: true,
+    },
+    // webSpeechPonyfillFactory: await speech.createSpeechPonyfill(),
+    // selectVoice: speech.getSelectVoice(),
+    store
 },
 document.getElementById('webchat')
 );
