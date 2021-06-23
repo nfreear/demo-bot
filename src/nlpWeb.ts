@@ -1,5 +1,7 @@
-/*
+/**
  * Natural Language Processing in the browser via `NLP.js`
+ *
+ * @see https://github.com/jesus-seijas-sp/nlpjs-examples/tree/master/02.web/03.filecorpus
  */
 
 import { Activity } from 'botbuilder-core';
@@ -9,9 +11,9 @@ import { Nlp } from '@nlpjs/nlp';
 import { LangEn } from '@nlpjs/lang-en-min';
 import { fs } from '@nlpjs/request-rn';
 
-// import { NLPJS_LICENSE } from './nlpjs-license';
+// Was: import { NLPJS_LICENSE } from './nlpjs-license';
 
-const DEFAULT_LOCALE: string = 'en-US';
+// Was: const DEFAULT_LOCALE: string = 'en-US';
 const DEFAULT_CORPUS: string = '/corpus-en.json';
 
 export interface UserAccount {
@@ -50,9 +52,7 @@ export class NlpWeb {
     protected container: Container;
     protected nlp: Nlp;
 
-    public async initialize(locale: string = DEFAULT_LOCALE, corpusPath: string = DEFAULT_CORPUS): Promise<any> {
-        // console.debug('NLP.js license:', NLPJS_LICENSE);
-
+    public async initialize(/* locale: string = DEFAULT_LOCALE, */ corpusPath: string = DEFAULT_CORPUS): Promise<any> {
         const container = this.container = await containerBootstrap();
 
         container.register('fs', fs); // 'request-rn' -- Load over the Web!
@@ -62,9 +62,9 @@ export class NlpWeb {
         const nlp: Nlp = this.nlp = container.get('nlp');
 
         nlp.settings.autoSave = false;
-        // nlp.addLanguage(this.localeIso2(locale));
+        // Was: nlp.addLanguage(this.localeIso2(locale));
 
-        await nlp.addCorpus(this.corpusUrl(corpusPath)); // Absolute URL!
+        await nlp.addCorpus(this.absoluteUrl(corpusPath)); // Absolute URL!
 
         const result = await nlp.train();
 
@@ -92,7 +92,7 @@ export class NlpWeb {
         return locale.substring(0, 2);
     }
 
-    public corpusUrl(corpusPath: string): string {
+    public absoluteUrl(corpusPath: string): string {
         const origin: string = window.location.origin;
 
         return `${origin}${corpusPath}`;

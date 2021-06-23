@@ -4,6 +4,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
  *
+ * @license MIT
  * @see https://github.com/microsoft/BotBuilder-Samples/tree/main/samples/javascript_es6/01.browser-echo;
  */
 
@@ -23,7 +24,7 @@ type MyLogic = (c: TurnContext) => Promise<void>;
 /**
  * Custom BotAdapter used for deploying a bot in a browser.
  */
-// @ts-ignore
+// @\\ts-ignore "Non-abstract class 'WebChatAdapter' does not implement inherited abstract member 'continueConversation' from class 'BotAdapter' …" */
 export class WebChatAdapter extends BotAdapter {
     public botConnection: MyConnection;
 
@@ -57,7 +58,7 @@ export class WebChatAdapter extends BotAdapter {
                 console.log('this.botConnection.componentWillUnmount() called.');
             },
             getSessionId: () => new Observable(observer => observer.complete()),
-            postActivity: activity => {
+            postActivity: (activity /* : Partial<Activity> */) => {
                 const id = Date.now().toString();
 
                 // console.debug('Adapter. From user postActivity. ID=', id, activity);
@@ -91,7 +92,7 @@ export class WebChatAdapter extends BotAdapter {
      * @param {TurnContext} context
      * @param {Activity[]} activities
      */
-    sendActivities(context: TurnContext, activities): Promise<any> {
+    public sendActivities(context: TurnContext, activities): Promise<any> {
         // console.debug('Adapter. sendActivities:', activities);
 
         const sentActivities = activities.map(activity => Object.assign({}, activity, {
@@ -114,7 +115,7 @@ export class WebChatAdapter extends BotAdapter {
      * Registers the business logic for the adapter, it takes a handler that takes a TurnContext object as a parameter.
      * @param {function} logic The driver code of the developer's bot application. This code receives and responds to user messages.
     */
-    processActivity(logic: MyLogic) {
+    public processActivity(logic: MyLogic): this {
         this.logic = logic;
 
         // console.debug('Adapter. processActivity:', logic);
@@ -126,7 +127,7 @@ export class WebChatAdapter extends BotAdapter {
      * Runs the bot's middleware pipeline in addition to any business logic, if `this.logic` is found.
      * @param {Activity} activity
      */
-    onReceive(activity: Partial<Activity>): Promise<void> {
+    public onReceive(activity: Partial<Activity>): Promise<void> {
         const context = new TurnContext(this, activity);
 
         // console.debug('Adapter. onReceive:', activity);
