@@ -4,7 +4,7 @@
 
 import { Activity } from 'botbuilder-core';
 
-import { containerBootstrap } from '@nlpjs/core';
+import { containerBootstrap, Container } from '@nlpjs/core';
 import { Nlp } from '@nlpjs/nlp';
 import { LangEn } from '@nlpjs/lang-en-min';
 import { fs } from '@nlpjs/request-rn';
@@ -47,8 +47,8 @@ export interface NlpResult {
 }
 
 export class NlpWeb {
-    protected container: any;
-    protected nlp: any;
+    protected container: Container;
+    protected nlp: Nlp;
 
     public async initialize(locale: string = DEFAULT_LOCALE, corpusPath: string = DEFAULT_CORPUS): Promise<any> {
         // console.debug('NLP.js license:', NLPJS_LICENSE);
@@ -59,10 +59,10 @@ export class NlpWeb {
         container.use(Nlp);
         container.use(LangEn);
 
-        const nlp = this.nlp = container.get('nlp');
+        const nlp: Nlp = this.nlp = container.get('nlp');
 
         nlp.settings.autoSave = false;
-        nlp.addLanguage(this.localeIso2(locale));
+        // nlp.addLanguage(this.localeIso2(locale));
 
         await nlp.addCorpus(this.corpusUrl(corpusPath)); // Absolute URL!
 
@@ -75,13 +75,13 @@ export class NlpWeb {
     public async process(locale: string, text: string): Promise<NlpResult> {
         const localeIso2: string = this.localeIso2(locale);
 
-        const result = await this.nlp.process(localeIso2, text);
+        const nlpResult: NlpResult = await this.nlp.process(localeIso2, text);
 
-        const { intent, score, answer } = result;
+        const { intent, score, answer } = nlpResult;
 
-        console.debug(`NLP.process: "${text}" -> "${answer}" ${intent} ${score}:`, result);
+        console.debug(`NLP.process: "${text}" -> "${answer}" ${intent} ${score}:`, nlpResult);
 
-        return result;
+        return nlpResult;
     }
 
     public async processActivity(activity: Partial<Activity>): Promise<NlpResult> {

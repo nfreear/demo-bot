@@ -4,10 +4,14 @@
  * @see https://webpack.js.org/guides/code-splitting/
  */
 
+const { readFileSync } = require('fs');
 const { join, resolve } = require('path');
-// const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+// Was: const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const { HotModuleReplacementPlugin /* , NamedModulesPlugin */ } = require('webpack');
+// Was: NamedModulesPlugin,
+const { HotModuleReplacementPlugin, BannerPlugin } = require('webpack');
+
+const NLPJS_LICENSE = resolve(__dirname, 'src', 'nlpjs-license.ts');
 
 module.exports = {
     entry: './src/app.ts',
@@ -15,7 +19,7 @@ module.exports = {
     devServer: {
         contentBase: './dist',
         hot: true
-        // , port: 9000
+        // , port: 8080
     },
     mode: 'development',
     module: {
@@ -35,14 +39,18 @@ module.exports = {
         ]
     },
     plugins: [
-        // new CleanWebpackPlugin(), // NDF:
+        // new CleanWebpackPlugin(),
         // new NamedModulesPlugin(), // Is this needed??
         new HotModuleReplacementPlugin(),
         new CopyWebpackPlugin({
             patterns: [
                 { from: resolve(__dirname, 'index.html'), to: '' },
-                { from: resolve(__dirname, 'bot', 'corpus-en.json'), to: '' },
+                { from: resolve(__dirname, 'bot', 'corpus-en.json'), to: '' }
             ]
+        }),
+        new BannerPlugin({
+            banner: readFileSync(NLPJS_LICENSE, 'utf8'),
+            raw: true
         })
     ],
     resolve: {
@@ -51,6 +59,9 @@ module.exports = {
     output: {
         filename: 'app.js',
         path: resolve(__dirname, 'dist')
+    },
+    stats: {
+        // errorDetails: true
     },
     // https://webpack.js.org/configuration/node/
     node: {
