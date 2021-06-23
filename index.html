@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex" />
 
-    <title> Example echo bot </title>
+    <title> Demo Bot </title>
 
   <script
     crossorigin="anonymous"
@@ -26,10 +26,24 @@
         height: 100%;
         width: 100%;
       }
+
+      #loading {
+        background-image: url(https://upload.wikimedia.org/wikipedia/commons/8/87/MaterialThrobber.svg);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 9rem;
+        font: 2rem sans-serif;
+        font-weight: normal;
+        text-align: center;
+      }
     </style>
   </head>
   <body>
-    <div id="webchat"></div>
+    <div id="webchat">
+
+      <h2 id="loading"> Loading </h2>
+
+    </div>
 
     <script defer type="text/javascript" src="app.js"></script>
 </body>

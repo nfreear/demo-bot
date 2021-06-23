@@ -5,11 +5,33 @@
 
 A demo Chat-bot that runs entirely in the browser.
 
-...
+Uses:
+
+* [NLP.js][]
+* [Webchat.js][]
+* [BotBuilder-core][]
+* A custom [WebChatAdapter][ba]
+
+## Usage
+
+```sh
+npm install
+npm run lint
+npm run build
+npm start
+```
 
 ...
 
 ---
+[nlp.js]: https://github.com/axa-group/nlp.js
+  "'NLP.js' is a general natural language utility for Node.js (AXA Group)"
+[webchat.js]: https://github.com/microsoft/BotFramework-WebChat/releases/tag/v4.13.0
+  "Bot Framework Web Chat Javascript component (Microsoft)"
+[botbuilder-core]: https://github.com/microsoft/botbuilder-js/tree/main/libraries/botbuilder-core
+  "… The core functionality for Bot Builder, but without any dependency on Node (Microsoft)"
+[ba]: ./src/webChatAdapter.ts
+  "Custom BotAdapter used for deploying a bot in a browser."
 [ci]: https://github.com/nfreear/demo-bot/actions/workflows/node.js.yml
 [ci-badge]: https://github.com/nfreear/demo-bot/actions/workflows/node.js.yml/badge.svg
 
