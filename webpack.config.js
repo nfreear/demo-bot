@@ -45,7 +45,8 @@ module.exports = {
         new CopyWebpackPlugin({
             patterns: [
                 { from: resolve(__dirname, 'index.html'), to: '' },
-                { from: resolve(__dirname, 'bot', 'corpus-en.json'), to: '' }
+                { from: resolve(__dirname, 'bot', 'corpus-en.json'), to: '' },
+                { from: resolve(__dirname, 'bot', 'pipelines.md'), to: '' }
             ]
         }),
         new BannerPlugin({
