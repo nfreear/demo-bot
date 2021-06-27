@@ -59,6 +59,14 @@
       ]
     },
     {
+      "intent": "quote.of.the.day",
+      "utterances": [
+        "give me a quote",
+        "quote of the day",
+        "quote me"
+      ]
+    },
+    {
       "intent": "survey.start",
       "utterances": [
         "Start the survey",

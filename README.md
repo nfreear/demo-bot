@@ -3,7 +3,9 @@
 
 # browser-bot #
 
-A demo Chat-bot that runs entirely in the browser.
+I am a demo Chat-bot that runs entirely in your browser. (_No server processing needed!_)
+
+## Built on
 
 Uses:
 
@@ -24,6 +26,10 @@ npm start
 ...
 
 ---
+© 2021 [Nick Freear][bg].
+
+[bg]: https://nick.freear.org.uk/ "Nick Freear's blog"
+[tw]: https://twitter.com/nfreear "Nick Freear '@nfreear' on Twitter"
 [nlp.js]: https://github.com/axa-group/nlp.js
   "'NLP.js' is a general natural language utility for Node.js (AXA Group)"
 [webchat.js]: https://github.com/microsoft/BotFramework-WebChat/releases/tag/v4.13.0
@@ -32,10 +38,12 @@ npm start
   "… The core functionality for Bot Builder, but without any dependency on Node (Microsoft)"
 [ba]: ./src/webChatAdapter.ts
   "Custom BotAdapter used for deploying a bot in a browser."
+[corp]: ./bot/corpus-en.json "The corpus or phrase-list used to train the Bot."
+[pl]: ./bot/pipelines.md "Pipeline that defines the Bot's behaviour."
 [ci]: https://github.com/nfreear/demo-bot/actions/workflows/node.js.yml
 [ci-badge]: https://github.com/nfreear/demo-bot/actions/workflows/node.js.yml/badge.svg
 
-
+<!--
 # browser echo sample
 
 Bot Framework v4 browser bot sample
@@ -93,5 +101,5 @@ Hosting a bot in the browser provides these benefits:
 - [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
 - [Activity processing](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0)
 - [Bot State and storage](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-storage-concept?view=azure-bot-service-4.0)
-
+-->
   [1]: ./src/webChatAdapter.ts

@@ -11,7 +11,9 @@ import {
     TurnContext
 } from 'botbuilder-core';
 
-import { NlpWeb, NlpResult } from './nlpWeb';
+import { getNlpConfig } from './getNlpConfig';
+import { NlpResult } from './nlpjsTypes';
+import { NlpWeb } from './nlpWeb';
 
 // const SURVEY_REGEX = /^(survey\.[a-z\.]+|None)$/
 
@@ -31,7 +33,7 @@ export class BotBackend {
         // Create a property to keep track of how many messages are received from the user.
         this.countProperty = this.conversationState.createProperty('turnCounter');
 
-        this.nlp = new NlpWeb();
+        this.nlp = new NlpWeb(getNlpConfig());
         this.nlp.initialize().then(res => console.debug('NLP.js ~ training complete:', res));
     }
 

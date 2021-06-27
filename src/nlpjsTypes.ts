@@ -1,5 +1,5 @@
 /**
- * Typescript types for NLP.js.
+ * Typescript type declarations for NLP.js.
  *
  * @author Nick Freear, 26-June-2021.
  */
@@ -12,6 +12,59 @@ import { Activity, ChannelAccount, InputHints } from 'botframework-schema';
     name: string,
     role?: string // RoleTypes. 'bot' or 'user'
 } */
+
+export interface NlpSettings {
+    corpora?: string[],
+    threshold?: number, // 0.0 -> 1.0;
+    autoLoad?: boolean,
+    autoSave?: boolean,
+    modelFileName?: string,
+    nlu?: any,
+    sentiment?: boolean,
+    tag?: string,
+    [otherSettings: string]: any,
+
+}
+
+export interface NerSettings {
+    threshold?: number, // 0.0 -> 1.0;
+    rules?: any, // @TODO !!
+    tag?: string,
+}
+
+export interface ApiServerSettings {
+    clientPath?: string,
+    port?: number, // default: 3000;
+    serveBot?: boolean,
+    tag?: string,
+}
+
+export interface ConsoleSettings {
+    debug?: boolean,
+}
+
+export interface Settings {
+    nlp?: NlpSettings,
+    ner?: NerSettings,
+    'api-server'?: ApiServerSettings,
+    console?: ConsoleSettings,
+    [otherSettings: string]: any,
+}
+
+export interface UseItem {
+    className: string,
+    path: string,
+}
+
+export interface Configuration {
+    // '#'?: string, // A comment ?!
+    pathPipeline?: string, // Singular!
+    pathPlugins?: string,  // Plural!
+    pipelines?: string,
+
+    settings?: Settings,
+    use?: Array<string | UseItem | any>,
+}
 
 export interface NlpClassification {
     intent: string,

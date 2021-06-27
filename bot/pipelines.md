@@ -20,6 +20,10 @@ if (something && something.value && something.value.joke) {
   input.answer = something.value.joke;
 }
 
+## onIntent(quote.of.the.day)
+quotePlugin
+->output.text
+
 ## onIntent(survey.start)
 echoPlugin
 ->output.text

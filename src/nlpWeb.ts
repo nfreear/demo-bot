@@ -10,44 +10,37 @@ import { Activity } from 'botbuilder-core';
 import { containerBootstrap, Container } from '@nlpjs/core';
 import { Nlp } from '@nlpjs/nlp';
 import { LangEn } from '@nlpjs/lang-en-min';
+// import { JavascriptCompiler } from '@nlpjs/evaluator';
 import { fs } from '@nlpjs/request-rn';
 
-import { NlpResult } from './nlpjsTypes';
-import { EchoPlugin } from './plugins/echoPlugin';
-
-// Was: import { NLPJS_LICENSE } from './nlpjs-license';
+import { NlpResult, Configuration } from './nlpjsTypes';
+// export { NlpResult, Configuration };
 
 const fetch = window.fetch;
-
-const CONFIG = {
-    //.
-    pathPipeline: 'pipelines.md',
-    pipelines: undefined,
-
-    settings: {
-        nlp: {
-            corpora: [
-                'corpus-en.json'
-            ]
-        }
-    },
-
-    use: [ Nlp, LangEn, EchoPlugin ]
-}
-
-// Was: const DEFAULT_LOCALE: string = 'en-US';
-const DEFAULT_CORPUS: string = CONFIG.settings.nlp.corpora[0]; // 'corpus-en.json';
+const location = window.location;
 
 export class NlpWeb {
     protected container: Container;
     protected nlp: Nlp;
+    protected OPT: Configuration;
 
-    public async initialize(/* locale: string = DEFAULT_LOCALE, */ corpusPath: string = DEFAULT_CORPUS): Promise<any> {
+    constructor(options: Configuration) {
+        this.OPT = options || {};
+
+        console.debug('NlpWeb:', this.OPT);
+    }
+
+    public async initialize(): Promise<any> {
+        const CONFIG: Configuration = this.OPT;
+
         const container = this.container = await containerBootstrap({
             pipelines: await this.loadPipelines(CONFIG.pathPipeline),
         });
 
         container.register('fs', fs); // 'request-rn' -- Load over the Web!
+
+        // @TODO: Doesn't work :(.
+        // container.registerCompiler(JavascriptCompiler, 'javascript');
 
         // Load builtin and custom plugins.
         CONFIG.use.forEach(plugin => container.use(plugin));
@@ -57,7 +50,7 @@ export class NlpWeb {
         nlp.settings.autoSave = false;
         // Was: nlp.addLanguage(this.localeIso2(locale));
 
-        const corpusUrl = this.absoluteUrl(corpusPath);
+        const corpusUrl = this.absoluteUrl(CONFIG.settings.nlp.corpora[0]);
 
         await nlp.addCorpus(corpusUrl); // Absolute URL!
 
@@ -88,10 +81,9 @@ export class NlpWeb {
     }
 
     protected absoluteUrl(corpusPath: string): string {
-        const origin: string = window.location.origin;
-        const path: string = window.location.pathname.replace(/(\w\.html)$/, '');
+        const path: string = location.pathname.replace(/(\w\.html)$/, '');
 
-        return `${origin}${path}${corpusPath}`;
+        return `${location.origin}${path}${corpusPath}`;
     }
 
     protected async loadPipelines(pipelinesPath: string): Promise<string> {
