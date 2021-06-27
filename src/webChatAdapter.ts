@@ -24,7 +24,6 @@ type MyLogic = (c: TurnContext) => Promise<void>;
 /**
  * Custom BotAdapter used for deploying a bot in a browser.
  */
-// @\\ts-ignore "Non-abstract class 'WebChatAdapter' does not implement inherited abstract member 'continueConversation' from class 'BotAdapter' …" */
 export class WebChatAdapter extends BotAdapter {
     public botConnection: MyConnection;
 
@@ -136,5 +135,26 @@ export class WebChatAdapter extends BotAdapter {
         // If no business logic has been registered via processActivity, a default
         // value is provided as to not break the bot.
         return this.runMiddleware(context, this.logic); // || function() { });
+    }
+
+    /* ----------------------------------------------------------------
+     * Not implemented !
+     * @see https://github.com/microsoft/botbuilder-js/blob/4.13.1/libraries/botbuilder-core/src/botAdapter.ts#L54-L98;
+     */
+
+    async continueConversation(/* r: Partial<ConversationRef>, l: MyLogic */) {
+        this.notImplemented('continueConversation');
+    }
+
+    async updateActivity(/* c: TurnContext, a: Partial<Activity> */) {
+        this.notImplemented('updateActivity');
+    }
+
+    async deleteActivity(/* c: TurnContext, r: Partial<ConversationRef> */) {
+        this.notImplemented('deleteActivity');
+    }
+
+    protected notImplemented (methodName: string): void {
+        console.warn(`> Not implemented: ${methodName}`);
     }
 }
