@@ -13,6 +13,17 @@ if (message === 'quit') {
 nlp.process();
 this.say();
 
+## onIntent(joke.chucknorris)
+// compiler=javascript
+const something = request.get('http://api.icndb.com/jokes/random');
+if (something && something.value && something.value.joke) {
+  input.answer = something.value.joke;
+}
+
+## onIntent(survey.start)
+echoPlugin
+->output.text
+
 ## onIntent(None)
 echoPlugin
 ->output.text

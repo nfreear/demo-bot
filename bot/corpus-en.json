@@ -47,7 +47,17 @@
         "Greetings!"
       ]
     },
-
+    {
+      "intent": "joke.chucknorris",
+      "utterances": [
+        "say a joke",
+        "tell me a joke",
+        "tell me a chuck norris fact",
+        "tell me a joke about chuck norris",
+        "say a chuck norris joke",
+        "some chuck norris fact"
+      ]
+    },
     {
       "intent": "survey.start",
       "utterances": [
