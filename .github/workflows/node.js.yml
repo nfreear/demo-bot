@@ -33,7 +33,7 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     # - run: npm test
-    - run: npm run lint
+    - run: npm run lint --if-present
     - run: ls -lh dist
 
     - name: Deploy 🚀
@@ -42,9 +42,14 @@ jobs:
       with:
         branch: gh-pages # The branch the action should deploy to.
         folder: dist     # The folder the action should deploy.
+        commitMessage: "Deploying to 'gh-pages' from $GITHUB_REPOSITORY@$GITHUB_SHA ('$GITHUB_REF') 🚀"
 
     - name: No deploy 🚫
       if: "github.event_name != 'release'"
       run: echo No deploy on push
+
+    - name: Test Deploy message
+      # Deploying to gh-pages from @ 353aedd 🚀
+      run: echo "Deploying to 'gh-pages' from $GITHUB_REPOSITORY@$GITHUB_SHA ('$GITHUB_REF') 🚀"
 
 # End.

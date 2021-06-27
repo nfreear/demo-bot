@@ -46,7 +46,8 @@ module.exports = {
             patterns: [
                 { from: resolve(__dirname, 'index.html'), to: '' },
                 { from: resolve(__dirname, 'bot', 'corpus-en.json'), to: '' },
-                { from: resolve(__dirname, 'bot', 'pipelines.md'), to: '' }
+                { from: resolve(__dirname, 'bot', 'pipelines.md'), to: '' },
+                { from: resolve(__dirname, 'README.md'), to: '' }
             ]
         }),
         new BannerPlugin({
