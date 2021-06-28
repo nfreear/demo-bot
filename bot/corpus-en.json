@@ -7,6 +7,20 @@
 
   "data": [
     {
+      "intent": "bot.about",
+      "utterances": [
+        "who are you",
+        "what are you",
+        "about me",
+        "about the bot",
+        "get information",
+        "fork me"
+      ],
+      "answers": [
+        "I'm a _demo-bot_. Find out more at [nfreear/demo-bot](https://github.com/nfreear/demo-bot#readme \"Fork me on GitHub\")"
+      ]
+    },
+    {
       "intent": "agent.birthday",
       "utterances": [
         "when is your birthday",

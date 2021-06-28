@@ -12,6 +12,7 @@ import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import { Activity, ActivityTypes, TurnContext } from 'botbuilder-core';
 import './css/app.css';
+import { Analytics } from './analytics';
 import { BotBackend } from './botBackend';
 import { WebChatAdapter } from './webChatAdapter';
 import { createStore, renderWebChat, WebChat, getWebChatVersion } from './webChat';
@@ -20,6 +21,8 @@ import { createStore, renderWebChat, WebChat, getWebChatVersion } from './webCha
 const locale = 'en-GB';
 
 const botBackend = new BotBackend();
+
+;new Analytics();
 
 // Create the custom WebChatAdapter.
 const webChatAdapter = new WebChatAdapter();

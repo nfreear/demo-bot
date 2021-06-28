@@ -7,12 +7,14 @@ I am a demo Chat-bot that runs entirely in your browser. (_No server processing 
 
 ## Built on
 
-Uses:
+I'm built on these third-party Javascript components:
 
 * [NLP.js][]
 * [Webchat.js][]
 * [BotBuilder-core][]
 * A custom [WebChatAdapter][ba]
+
+[More credits](./docs/CREDIT.md).
 
 ## Usage
 
