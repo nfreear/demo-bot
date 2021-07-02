@@ -1,5 +1,7 @@
-/*
+/**
+ * Backend implementation of `onMessage` and `onJoinChat` used with `WebChatAdapter`.
  *
+ * @copyright © Nick Freear, 22-June-2021.
  */
 
 import {
@@ -14,6 +16,7 @@ import {
 import { getNlpConfig } from './getNlpConfig';
 import { NlpResult } from './nlpjsTypes';
 import { NlpWeb } from './nlpWeb';
+import { sendTyping } from './botUtilities';
 
 // const SURVEY_REGEX = /^(survey\.[a-z\.]+|None)$/
 
@@ -67,7 +70,10 @@ export class BotBackend {
     }
 
     public async onJoinChat(context: TurnContext): Promise<void> {
+        await sendTyping(context);
         await context.sendActivity(`Welcome!`);
+        await sendTyping(context);
         await context.sendActivity('Say "go" to get started');
+        await sendTyping(context);
     }
 }
