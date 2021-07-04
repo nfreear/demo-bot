@@ -13,7 +13,9 @@ import {
     TurnContext
 } from 'botbuilder-core';
 
+// @NOTE: './getNlpConfig' will be modified by webpack at build-time!
 import { getNlpConfig } from './getNlpConfig';
+
 import { NlpResult } from './nlpjsTypes';
 import { NlpWeb } from './nlpWeb';
 import { sendTyping } from './botUtilities';
@@ -39,6 +41,18 @@ export class BotBackend {
         this.nlp = new NlpWeb(getNlpConfig());
         this.nlp.initialize().then(res => console.debug('NLP.js ~ training complete:', res));
     }
+
+    /* protected async nlpInitialize() {
+        // console.debug('>> BOT_ID:', BOT_ID, getNlpConfigImportPath);
+
+        // const { getNlpConfig } = require(getNlpConfigImportPath); // Not: await import() ?
+
+        const NLP_CONFIG = getNlpConfig();
+        this.nlp = new NlpWeb(NLP_CONFIG);
+        const result = await this.nlp.initialize();
+
+        console.debug('NLP.js ~ training complete:', NLP_CONFIG, result);
+    } */
 
     public async onMessage(context: TurnContext): Promise<void> {
         const ACT: Partial<Activity> = context.activity;

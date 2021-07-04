@@ -63,6 +63,7 @@ export interface Configuration {
 
     settings?: Settings,
     use?: Array<string | UseItem | any>,
+    [otherConfig: string]: any,
 }
 
 export interface NlpClassification {

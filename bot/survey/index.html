@@ -1,0 +1,72 @@
+<!doctype html><html lang="en" data-bot-id="survey">
+
+<meta charset="utf-8"><title>Survey-Bot</title>
+
+<meta name="robots" content="noindex, nofollow" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="copyright" content="© 2021 Nick Freear." />
+
+<link rel="stylesheet" href="survey-app.css" />
+<link rel="icon" href="data:," /><!-- Prevent 404 errors. -->
+
+<script
+  crossorigin="anonymous"
+  integrity="sha384-Xm4uX5+AacO2cl3ffEKrytyC+iHBSsNvXrJTTzodBhgkiuxIS0YWHGq1KFcf0Rr+"
+  src="https://cdn.botframework.com/botframework-webchat/4.13.0/webchat.js"
+></script>
+
+<script
+  src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@1.17.0/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js"
+  integrity="sha256-psfl63lul/bQX9y0lE9MOSmbYDhMa0vF5hp5MKalgJs="
+  crossorigin="anonymous"
+></script>
+
+<!-- <script
+  crossorigin="anonymous"
+  src="https://unpkg.com/simple-update-in/dist/simple-update-in.production.min.js"
+></script> -->
+
+
+<form id="bot-form" class="bot-form" aria-labelledby="bot-label">
+  <h1 id="bot-label"> Survey Bot </h1>
+
+  <input id="showForm" type="hidden" value="true" data-regex="(false)" />
+  <input id="showLocale" type="hidden" value="false" data-regex="(true)" />
+  <input id="showAsr" type="hidden" value="false" data-regex="(true)" />
+  <input id="embed" type="hidden" value="false" data-regex="(true)" />
+
+  <input id="userID" type="hidden" value="jxb1234" data-regex="([\w-@]+)" />
+  <input id="username" type="hidden" value="User Jo" data-regex="([\w-\. ]+)" />
+
+  <p class="inp-asr">
+    <label for="asr">Speech recognizer mode</label>
+    <select id="asr" data-regex="(adaptive|default)">
+      <option>adaptive</option> <option>default</option>
+    </select>
+
+  <p class="inp-timeout">
+    <label for="timeout">Speech timeout in seconds</label>
+    <input id="timeout" type="number" value="1.0" min="0" max="30" step="0.5" pattern="\d+(\.\d+)?" data-regex="(\d+(\.[05])?)" />
+
+  <p class="inp-locale">
+    <label for="locale">Language</label>
+    <select id="locale" data-regex="(en-GB|fr-FR|es-ES)">
+      <option value="en-GB">English</option> <option value="fr-FR">Français</option> <option value="es-ES">Espanol</option>
+    </select>
+
+  <p class="btn-submit"><button type="submit">Launch the Bot</button>
+
+  <!-- <p class="btn-reload"><button type="reset" title="Start over!">Reload</button> -->
+</form>
+
+
+<main id="webchat" role="main"></main>
+
+
+<footer> © The Open University </footer>
+
+
+<script defer type="text/javascript" src="app.js"></script>
+<!-- <script type="module" src="js/app.js"></script> -->
+
+</html>

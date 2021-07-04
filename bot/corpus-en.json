@@ -1,7 +1,7 @@
 {
-  "#": "https://github.com/nfreear/survey-bot/blob/main/bot/corpus-en.json",
+  "name": "Demo-Bot corpus.",
 
-  "name": "Name of the corpus",
+  "#": "https://github.com/nfreear/survey-bot/blob/main/bot/corpus-en.json",
 
   "locale": "en-GB",
 
