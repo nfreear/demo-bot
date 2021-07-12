@@ -11,16 +11,25 @@ const { join, resolve } = require('path');
 // Was: const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 // Was: NamedModulesPlugin,
-const { HotModuleReplacementPlugin, BannerPlugin, NormalModuleReplacementPlugin } = require('webpack');
+const {
+  HotModuleReplacementPlugin, BannerPlugin, DefinePlugin, NormalModuleReplacementPlugin
+} = require('webpack');
 const logging = require('webpack/lib/logging/runtime');
 const logger = logging.getLogger('default');
 
+const { loadEnv } = require('@nlpjs/core-loader');
+
 module.exports = (env) => {
+  loadEnv();
+
+  const { SPEECH_KEY } = process.env;
+
   const BOT_ID = env.BOT_ID && env.BOT_ID === 'survey' ? 'survey' : 'demo';
   const IS_SURVEY_BOT = BOT_ID === 'survey';
 
   const NLPJS_LICENSE = resolve(__dirname, 'src', 'nlpjs-license.ts');
 
+  logger.info('>> Key:', SPEECH_KEY);
   logger.info('>> Env:', env);
 
   // process.exit( 1 );
@@ -53,11 +62,10 @@ module.exports = (env) => {
         ]
     },
     plugins: [
-        /* new DefinePlugin({
-            BOT_ID: JSON.stringify(BOT_ID),
-            IS_SURVEY_BOT,
-            // getNlpConfigImportPath: JSON.stringify(`./getNlpConfig${IS_SURVEY_BOT ? 'Survey' : ''}`),
-        }), */
+        new DefinePlugin({
+            __WP_BOT_ID__: JSON.stringify(BOT_ID),
+            __WP_SPEECH_KEY__: JSON.stringify(SPEECH_KEY),
+        }),
         // new CleanWebpackPlugin(),
         // new NamedModulesPlugin(), // Is this needed??
         new HotModuleReplacementPlugin(),

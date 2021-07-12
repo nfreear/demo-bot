@@ -1,3 +1,4 @@
+.env
 .DS_Store
 /dist
 node_modules
@@ -6,5 +7,8 @@ node_modules
 *BAK*
 *.zip
 
-notes.md
+# notes.md
+
+assets
 nlpjs-web
+survey-bot
