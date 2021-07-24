@@ -4,15 +4,14 @@
  * @see https://developers.google.com/analytics/devguides/collection/analyticsjs/cookies-user-id#using_localstorage_to_store_the_client_id;
  */
 
-const ANALYTICS_ID: string = 'UA-8330079-11';
+const ANALYTICS_ID: string = 'UA-XXXXXX-YY'; // 'UA-8330079-11';
 const GA_LOCAL_STORAGE_KEY: string = 'ga:clientId';
-const GA_DEBUG = false;
 
 export class Analytics {
     protected analyticsId: string;
     protected debug: boolean;
-    //.
-    public constructor(analyticsId = ANALYTICS_ID, debug = GA_DEBUG) {
+
+    public constructor(analyticsId: string = ANALYTICS_ID, debug: boolean = false) {
         this.analyticsId = analyticsId;
         this.debug = debug;
 

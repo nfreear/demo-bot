@@ -5,6 +5,11 @@
 
 name: Node.js CI
 
+env:
+  BOT_ID: survey
+  # BOT_ID: demo
+  SPEECH_KEY: ${{ secrets.AZ_SPEECH_KEY_DEV }}
+
 on:
   push:
     branches: [ main ]
@@ -31,10 +36,16 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
-    - run: npm run build --if-present
+    - run: npm run build:demo
+    - run: npm run clean
+      if: "env.BOT_ID == 'survey'"
+    - run: npm run build:survey
+      if: "env.BOT_ID == 'survey'"
     # - run: npm test
     - run: npm run lint --if-present
     - run: ls -lh dist
+    - run: jq '.name' dist/corpus-en.json
+    - run: jq '.data[].intent' dist/corpus-en.json
 
     - name: Deploy 🚀
       if: "github.event_name == 'release'"

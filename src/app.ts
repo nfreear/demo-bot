@@ -14,15 +14,31 @@ import { Activity, ActivityTypes, TurnContext } from 'botbuilder-core';
 import './css/app.css';
 import { Analytics } from './analytics';
 import { BotBackend } from './botBackend';
+import { getAppConfig } from './getAppConfig';
 import { WebChatAdapter } from './webChatAdapter';
 import { createStore, renderWebChat, WebChat, getWebChatVersion } from './webChat';
 // Was: import { renderWebChat } from 'botframework-webchat';
 
-const locale = 'en-GB';
+import { FormData } from './surveyBotApp';
+
+const MIN_ALLOW_TIMEOUT = 100; // ms.
+
+const OPT /*{ locale, analyticsId, speechCfg }*/ = getAppConfig();
+
+const botForm = new FormData('#bot-form');
 
 const botBackend = new BotBackend();
 
-;new Analytics();
+;new Analytics(OPT.analyticsId);
+
+botForm.on('submit', ev => {
+    ev.preventDefault();
+
+    // ...
+    const data = botForm.getDataFromEvent(ev);
+
+    launchBot(OPT);
+});
 
 // Create the custom WebChatAdapter.
 const webChatAdapter = new WebChatAdapter();
@@ -33,42 +49,45 @@ const webChatAdapter = new WebChatAdapter();
     await next();
 }); */
 
-// Create a store.
-const store = createStore({}, ({ dispatch }) => next => action => {
 
-  if (action.type === 'DIRECT_LINE/CONNECT_FULFILLED') {
-    const dResult = dispatch({
-      type: 'WEB_CHAT/SEND_EVENT',
-      payload: {
-        name: 'webchat/join',
-        value: { language: 'en-GB' }
+function launchBot(OPT) {
+    // Create a store.
+    const store = createStore({}, ({ dispatch }) => next => action => {
+
+      if (action.type === 'DIRECT_LINE/CONNECT_FULFILLED') {
+        const dResult = dispatch({
+          type: 'WEB_CHAT/SEND_EVENT',
+          payload: {
+            name: 'webchat/join',
+            value: { language: OPT.locale }
+          }
+        });
+
+        console.debug('Webchat connect fulfilled!', dResult);
       }
+
+      return next(action);
     });
 
-    console.debug('Webchat connect fulfilled!', dResult);
-  }
-
-  return next(action);
-});
-
-// Connect our BotFramework-WebChat instance with the DOM.
-
-renderWebChat({
-    directLine: webChatAdapter.botConnection,
-    locale,
-    // userID: options.userID || 'nick', // 'YOUR_USER_ID',
-    // username: options.username || 'Nick User',
-    role: 'main', // Not 'complementary'!
-    styleOptions: {
-        // adaptiveCardsParserMaxVersion: '1.2'
-        hideUploadButton: true,
+    // Connect our BotFramework-WebChat instance with the DOM.
+    renderWebChat({
+        directLine: webChatAdapter.botConnection,
+        locale: OPT.locale,
+        // userID: options.userID || 'nick', // 'YOUR_USER_ID',
+        // username: options.username || 'Nick User',
+        role: 'main', // Not 'complementary'!
+        styleOptions: {
+            // adaptiveCardsParserMaxVersion: '1.2'
+            hideUploadButton: true,
+        },
+        // webSpeechPonyfillFactory: await speech.createSpeechPonyfill(),
+        // selectVoice: speech.getSelectVoice(),
+        store
     },
-    // webSpeechPonyfillFactory: await speech.createSpeechPonyfill(),
-    // selectVoice: speech.getSelectVoice(),
-    store
-},
-document.getElementById('webchat')
-);
+    document.getElementById('webchat')
+    );
+}
+
 
 // Register the business logic of the bot through the WebChatAdapter's processActivity implementation.
 webChatAdapter.processActivity(async (context: TurnContext) => {

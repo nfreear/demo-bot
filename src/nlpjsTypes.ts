@@ -1,7 +1,7 @@
 /**
  * Typescript type declarations for NLP.js.
  *
- * @author Nick Freear, 26-June-2021.
+ * @copyright © Nick Freear, 26-June-2021.
  */
 
 import { defaultContainer, Clonable, Container } from '@nlpjs/core';
@@ -23,7 +23,6 @@ export interface NlpSettings {
     sentiment?: boolean,
     tag?: string,
     [otherSettings: string]: any,
-
 }
 
 export interface NerSettings {
@@ -64,6 +63,7 @@ export interface Configuration {
 
     settings?: Settings,
     use?: Array<string | UseItem | any>,
+    [otherConfig: string]: any,
 }
 
 export interface NlpClassification {

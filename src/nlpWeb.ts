@@ -60,10 +60,11 @@ export class NlpWeb {
         return [ result, corpusUrl ];
     }
 
-    public async process(locale: string, text: string): Promise<NlpResult> {
-        const localeIso2: string = this.localeIso2(locale);
+    public async process(locale: string|any, utterance?: string, srcContext?: any): Promise<NlpResult> {
+        const text: string = utterance || locale.message;
+        // const localeIso2: string = this.localeIso2(locale);
 
-        const nlpResult: NlpResult = await this.nlp.process(localeIso2, text);
+        const nlpResult: NlpResult = await this.nlp.process(locale); //, utterance, srcContext);
 
         const { intent, score, answer } = nlpResult;
 
@@ -72,8 +73,19 @@ export class NlpWeb {
         return nlpResult;
     }
 
+    /**
+     * @see https://github.com/axa-group/nlp.js/blob/4.14.2/packages/directline-connector/src/directline-controller.js#L157-L164
+     */
     public async processActivity(activity: Partial<Activity>): Promise<NlpResult> {
-        return await this.process(activity.locale, activity.text);
+        return this.process({
+            locale: this.localeIso2(activity.locale) || null,
+            message: activity.text,
+            channel: 'directline',
+            app: 'NlpWeb', // this.settings.container.name,
+            from: activity.from || null,
+            activity,
+        });
+        // Was: return await this.process(activity.locale, activity.text);
     }
 
     public localeIso2(locale: string): string {
